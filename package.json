@@ -1,0 +1,33 @@
+{
+  "name": "@abramltd/ecc",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbramLtd/ECC.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AbramLtd/ECC/issues"
+  },
+  "homepage": "https://github.com/AbramLtd/ECC#readme",
+  "optionalDependencies": {
+    "secp256k1": "^3.5.0"
+  },
+  "dependencies": {
+    "elliptic": "^6.4.0",
+    "nan": "^2.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "jest": "^23.1.0"
+  }
+}
