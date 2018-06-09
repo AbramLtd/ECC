@@ -1,4 +1,4 @@
-const ecdh = require('./build/Release/ecdh'); // eslint-disable-line import/no-unresolved
+const ecdh = require('../build/Release/ecdh'); // eslint-disable-line import/no-unresolved
 
 function derive(privateKeyA, publicKeyB) {
   return new Promise(((resolve) => {
