@@ -5,11 +5,11 @@ const getPublic = require('./getPublic');
 const aes256Cbc = require('./aes256Cbc');
 const derive = require('./derive');
 
-async function encrypt(publicKeyTo, msg, opts) {
+function encrypt(publicKeyTo, msg, opts) {
   opts = opts || {}; // eslint-disable-line no-param-reassign
   const ephemPrivateKey = opts.ephemPrivateKey || crypto.randomBytes(32);
   const ephemPublicKey = getPublic(ephemPrivateKey);
-  const Px = await derive(ephemPrivateKey, publicKeyTo);
+  const Px = derive(ephemPrivateKey, publicKeyTo);
   const PxHash = hash(Px);
   const iv = opts.iv || crypto.randomBytes(16);
   const encryptionKey = PxHash.slice(0, 32);

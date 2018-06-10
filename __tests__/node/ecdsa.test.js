@@ -105,3 +105,18 @@ test('Sign and verify messages less than 32 bytes', () => {
   expect(signature.toString('hex')).toEqual('304402204737396b697e5a3400e3aedd203d8be89879f97708647252bd0c17752ff4c8f302201d52ef234de82ce0719679fa220334c83b80e21b8505a781d32d94a27d9310aa');
   expect(ECDSA.verify(publicKey, msg, signature)).toBe(true);
 });
+
+test('Fail at signing and verifing messages longer than 32 bytes', () => {
+  const privateKey = Buffer.alloc(32);
+  privateKey.fill(1);
+  const publicKey = getPublic(privateKey);
+  const msg = Buffer.alloc(40);
+  const signature = Buffer.from('304402204737396b697e5a3400e3aedd203d8be89879f97708647252bd0c17752ff4c8f302201d52ef234de82ce0719679fa220334c83b80e21b8505a781d32d94a27d9310aa', 'hex');
+  expect(() => {
+    try {
+      ECDSA.verify(publicKey, msg, signature);
+    } catch (err) {
+      throw err;
+    }
+  }).toThrow();
+});

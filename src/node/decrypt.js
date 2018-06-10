@@ -16,19 +16,18 @@ function equalConstTime(b1, b2) {
 }
 
 function decrypt(privateKey, opts) {
-  derive(privateKey, opts.ephemPublicKey).then((Px) => {
-    const PxHash = hash(Px);
-    const encryptionKey = PxHash.slice(0, 32);
-    const macKey = PxHash.slice(32);
-    const dataToMac = Buffer.concat([
-      opts.iv,
-      opts.ephemPublicKey,
-      opts.ciphertext,
-    ]);
-    const realMac = hmac(macKey, dataToMac);
-    assert(equalConstTime(opts.mac, realMac), 'failed');
-    return aes256Cbc.decrypt(opts.iv, encryptionKey, opts.ciphertext);
-  });
+  const Px = derive(privateKey, opts.ephemPublicKey);
+  const PxHash = hash(Px);
+  const encryptionKey = PxHash.slice(0, 32);
+  const macKey = PxHash.slice(32);
+  const dataToMac = Buffer.concat([
+    opts.iv,
+    opts.ephemPublicKey,
+    opts.ciphertext,
+  ]);
+  const realMac = hmac(macKey, dataToMac);
+  assert(equalConstTime(opts.mac, realMac), 'failed');
+  return aes256Cbc.decrypt(opts.iv, encryptionKey, opts.ciphertext);
 }
 
 module.exports = decrypt;
