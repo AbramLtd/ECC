@@ -43,3 +43,90 @@ test('encrypt and decrypt', () => {
   const msg = decrypt(privateKeyA, enc);
   expect(msg.toString()).toEqual('secret');
 });
+
+test('Fail at bad private key when decrypting', () => {
+  const privateKeyA = Buffer.alloc(32);
+  privateKeyA.fill(2);
+  const publicKeyA = getPublic(privateKeyA);
+
+  const privateKeyB = Buffer.alloc(32);
+  privateKeyB.fill(3);
+  const enc = encrypt(publicKeyA, Buffer.from('test'));
+  expect(() => {
+    try {
+      decrypt(privateKeyB, enc);
+    } catch (err) {
+      throw err;
+    }
+  }).toThrow();
+});
+
+test('Fail on bad IV when decrypting', () => {
+  const privateKeyA = Buffer.alloc(32);
+  privateKeyA.fill(2);
+  const publicKeyA = getPublic(privateKeyA);
+  const enc = encrypt(publicKeyA, Buffer.from('test'));
+  enc.iv[0] ^= 1;
+  expect(() => {
+    try {
+      decrypt(privateKeyA, enc);
+    } catch (err) {
+      throw err;
+    }
+  }).toThrow();
+});
+
+test('Fail on bad R when decrypting', () => {
+  const privateKeyA = Buffer.alloc(32);
+  privateKeyA.fill(2);
+  const publicKeyA = getPublic(privateKeyA);
+  const enc = encrypt(publicKeyA, Buffer.from('test'));
+  enc.ephemPublicKey[0] ^= 1;
+  expect(() => {
+    try {
+      decrypt(privateKeyA, enc);
+    } catch (err) {
+      throw err;
+    }
+  }).toThrow();
+});
+
+test('Fail on bad ciphertext when decrypting', () => {
+  const privateKeyA = Buffer.alloc(32);
+  privateKeyA.fill(2);
+  const publicKeyA = getPublic(privateKeyA);
+  const enc = encrypt(publicKeyA, Buffer.from('test'));
+  enc.ciphertext[0] ^= 1;
+  expect(() => {
+    try {
+      decrypt(privateKeyA, enc);
+    } catch (err) {
+      throw err;
+    }
+  }).toThrow();
+});
+
+test('Fail on bad MAC when decrypting', () => {
+  const privateKeyA = Buffer.alloc(32);
+  privateKeyA.fill(2);
+  const publicKeyA = getPublic(privateKeyA);
+  const enc = encrypt(publicKeyA, Buffer.from('test'));
+  const origMac = enc.mac;
+  enc.mac = mac.slice(1);
+  expect(() => {
+    try {
+      decrypt(privateKeyA, enc);
+    } catch (err) {
+      throw err;
+    }
+  }).toThrow();
+  enc.mac = origMac;
+  enc.mac[10] ^= 1;
+  expect(() => {
+    try {
+      decrypt(privateKeyA, enc);
+    } catch (err) {
+      throw err;
+    }
+  }).toThrow();
+});
