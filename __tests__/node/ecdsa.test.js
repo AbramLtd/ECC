@@ -94,3 +94,14 @@ test('Reject on when verifying invalid signature ', () => {
     }
   }).toThrow();
 });
+
+test('Sign and verify messages less than 32 bytes', () => {
+  const privateKey = Buffer.alloc(32);
+  privateKey.fill(1);
+  const publicKey = getPublic(privateKey);
+  const msg = createHash('sha1').update('test').digest();
+  const signature = ECDSA.sign(privateKey, msg);
+  expect(Buffer.isBuffer(signature)).toBe(true);
+  expect(signature.toString('hex')).toEqual('304402204737396b697e5a3400e3aedd203d8be89879f97708647252bd0c17752ff4c8f302201d52ef234de82ce0719679fa220334c83b80e21b8505a781d32d94a27d9310aa');
+  expect(ECDSA.verify(publicKey, msg, signature)).toBe(true);
+});
