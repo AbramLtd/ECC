@@ -1,7 +1,7 @@
 const getPublic = require('../../src/node/getPublic');
 
 
-test('Public key is Buffer', () => {
+test('Public key is a Buffer', () => {
   const privateKey = Buffer.alloc(32);
   privateKey.fill(1);
   const publicKey = getPublic(privateKey);
