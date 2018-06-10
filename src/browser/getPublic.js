@@ -6,7 +6,7 @@ const { Buffer } = require('buffer/');
 
 function getPublic(privateKey) {
   if (privateKey.length !== 32) {
-    throw new Error('Bad private key');
+    throw new Error('private key needs to be 32 bytes long');
   }
   return Buffer.from(ec.keyFromPrivate(privateKey).getPublic('arr'));
 }
