@@ -31,3 +31,15 @@ test('decrypt', () => {
   const msg = decrypt(privateKeyB, decOpts);
   expect(msg.toString()).toEqual('test');
 });
+
+test('encrypt and decrypt', () => {
+  const privateKeyA = Buffer.alloc(32);
+  privateKeyA.fill(2);
+  const publicKeyA = getPublic(privateKeyA);
+
+  const privateKeyB = Buffer.alloc(32);
+  privateKeyB.fill(3);
+  const enc = encrypt(publicKeyA, Buffer.from('secret'));
+  const msg = decrypt(privateKeyA, enc);
+  expect(msg.toString()).toEqual('secret');
+});
