@@ -1,5 +1,5 @@
 const getPublic = require('../../src/browser/getPublic');
-
+const { Buffer } = require('buffer/');
 
 test('Public key is Buffer', () => {
   const privateKey = Buffer.alloc(32);
