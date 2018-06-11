@@ -2,12 +2,12 @@ const { Buffer } = require('buffer/');
 const cryptoObj = crypto || msCrypto || {};
 const subtle = cryptoObj.subtle || cryptoObj.webkitSubtle;
 
-async function encrypt(iv, key, data) {
+async function decrypt(iv, key, data) {
   const importAlgorithm = { name: 'AES-CBC' };
-  const cryptoKey = await subtle.importKey('raw', key, importAlgorithm, false, 'encrypt');
+  const cryptoKey = await subtle.importKey('raw', key, importAlgorithm, false, 'decrypt');
   const encAlgorithm = { name: 'AES-CBC', iv };
-  const result = await subtle.encrypt(encAlgorithm, cryptoKey, data);
+  const result = await subtle.decrypt(encAlgorithm, cryptoKey, data);
   return Buffer.from(new Uint8Array(result));
 }
 
-module.exports = encrypt;
+module.exports = decrypt;
