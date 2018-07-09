@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run test:node && npm run test:browser",
-    "test:browser": "browserify __tests__/browser/*.test.js > __tests__/browser/index.js && http-server -o -a localhost",
+    "test:browser": "browserify __tests__/browser/*.test.js > build/index.js && http-server -o -a localhost",
     "test:node": "jest --testMatch '**/node/?(*.)+(spec|test).js?(x)'"
   },
   "repository": {
