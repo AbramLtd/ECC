@@ -1,5 +1,3 @@
-const { Buffer } = require('buffer/');
-
 const cryptoObj = crypto || msCrypto || {};
 const subtle = cryptoObj.subtle || cryptoObj.webkitSubtle;
 

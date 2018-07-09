@@ -1,7 +1,6 @@
-const { Buffer } = require('buffer/');
 const ec = require('elliptic').ec('secp256k1');
 
-async function derive(privateKeyA, publicKeyB) {
+function derive(privateKeyA, publicKeyB) {
   if (!Buffer.isBuffer(privateKeyA) || !Buffer.isBuffer(publicKeyB)) {
     throw new Error('Malformed input');
   }
@@ -14,7 +13,7 @@ async function derive(privateKeyA, publicKeyB) {
   }
   const keyA = ec.keyFromPrivate(privateKeyA);
   const keyB = ec.keyFromPublic(publicKeyB);
-  const px = keyA.derive(keyB.getPublic()); // BN instance
+  const px = keyA.derive(keyB.getPublic());
   return Buffer.from(px.toArray());
 }
 
