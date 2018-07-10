@@ -1,6 +1,7 @@
 const derive = require('./derive');
 const getPublic = require('./getPublic');
 const hash = require('./hash');
+const { sign } = require('./hmac');
 const aes256Cbc = require('./aes256Cbc');
 const assert = require('assert');
 
@@ -25,7 +26,7 @@ async function encrypt(publicKeyTo, msg, opts) {
   const macKey = sha512.slice(32);
   const ciphertext = await aes256Cbc.encrypt(iv, encryptionKey, msg);
   const dataToMac = Buffer.concat([iv, ephemPublicKey, ciphertext]);
-  const mac = hmacSha256Sign(macKey, dataToMac);
+  const mac = await sign(macKey, dataToMac);
   return {
     iv: iv,
     ephemPublicKey: ephemPublicKey,
